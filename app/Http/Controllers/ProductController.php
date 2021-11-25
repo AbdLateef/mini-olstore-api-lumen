@@ -23,6 +23,12 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function detail($id)
+    {
+        $product = Product::find($id);
+        return response()->json($product);
+    }
+
     public function create(Request $request)
     {
         Product::create($request->all());
@@ -31,6 +37,17 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         Product::where('id', $id)->update($request->all());
+    }
+
+    public function order(Request $request, $id)
+    {
+        $product = Product::find($id);
+        if($product->stock < intval($request->order)) {
+            return response()->json(['success' => false, 'message' => 'Out of stock']);
+        } else {
+            $product->decrement('stock', intval($request->order));
+            return response()->json(['success' => true, 'message' => 'Success']);
+        }
     }
 
     public function destroy($id)

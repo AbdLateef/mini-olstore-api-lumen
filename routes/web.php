@@ -16,8 +16,12 @@ $router->get('/', 'ProductController@index');
 
 $router->get('/products', 'ProductController@index');
 
+$router->get('/products/{id}', 'ProductController@detail');
+
 $router->post('/products', 'ProductController@create');
 
 $router->put('/products/{id}', 'ProductController@update');
+
+$router->put('/products/{id}/order', 'ProductController@order');
 
 $router->delete('/products/{id}', 'ProductController@destroy');
